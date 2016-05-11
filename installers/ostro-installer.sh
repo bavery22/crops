@@ -5,7 +5,8 @@ if [[ "$(basename -- "$0")" == "ostro-installer.sh" ]]; then
   echo -e "\nExample:\nsource $0\n"; exit 1
 fi
 
-OSTRO_IMG=crops/ostro:builder
+OSTRO_VERSION=v1.0.0
+OSTRO_IMG=crops/ostrobuilder:${OSTRO_VERSION}
 OSTRO_CONTAINER=ostro-builder
 OSTRO_CONF=$HOME/ostro-workspace/shared/conf/ostro.conf
 BITBAKE_WRAPPER=$HOME/.crops/bitbake.ostro
