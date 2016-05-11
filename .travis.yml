@@ -35,6 +35,7 @@ script:
   - docker images | grep toolchain | grep -q test
   - docker images | grep zephyr | grep -q test
   - ./scripts/run_containers
+  - ./scripts/build_containers.ostro
   - python tests.py
 
 notifications:
