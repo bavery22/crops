@@ -37,8 +37,7 @@ class OstroBuildTest(unittest.TestCase):
         # TODO:need to use a check for docker machine and get ip if pc/mac
         #self.dockerAddress = ceedutil.getDockerAddress().strip()
         self.makeScript='./scripts/bitbake.ostro'
-        self.buildPath=os.environ['HOME']+"/ostro-workspace/"
-        self.noswupdImage=self.buildPath+"/ostro-shared/images/intel-corei7-64/ostro-image-noswupd-intel-corei7-64.dsk"
+        self.noswupdImage="ostro-shared/images/intel-corei7-64/ostro-image-noswupd-intel-corei7-64.dsk"
         self.devnull=open(os.devnull, 'w')
 
     def tearDown(self):
@@ -49,8 +48,7 @@ class OstroBuildTest(unittest.TestCase):
         ''' Build ostro-image-noswupd\n'''
         TARGET="ostro-image-noswupd"
         try:
-            os.mkdir(self.buildPath)
-            subprocess.call([self.makeScript,TARGET],cwd=self.buildPath,stdout=self.devnull)
+            subprocess.call([self.makeScript,TARGET])
         except subprocess.CalledProcessError as e:
             print e.output
             self.assertTrue(False)
@@ -60,15 +58,11 @@ class OstroBuildTest(unittest.TestCase):
         if os.path.isfile(self.noswupdImage):
             success=True
 
-        self.assertTrue(success)
-
-
-
-
-    def test_noswupd_sstate(self):
-        ''' Build ostro-image-noswupd\n'''
-
-        PATH=self.buildPath+"/ostro-shared/log/cooker/intel-corei7-64"
+        # and check to see if we have an ok (0 is gr8)
+        # number of sstate misses
+        PATH="ostro-shared/log/cooker/intel-corei7-64"
         NUM_OK_TO_BUILD=10
         # 2nd argument prints out bad sstate pkgs
-        self.assertTrue(countRunTasks(PATH,True)<=NUM_OK_TO_BUILD)
+        success |= countRunTasks(PATH,True)<=NUM_OK_TO_BUILD
+
+        self.assertTrue(success)
