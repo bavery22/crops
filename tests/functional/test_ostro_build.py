@@ -85,6 +85,6 @@ class OstroBuildTest(unittest.TestCase):
         NUM_OK_TO_BUILD=10
         # 2nd argument prints out bad sstate pkgs
         n = countRunTasks(PATH,True)
-        success |= <=NUM_OK_TO_BUILD
+        success |= n<=NUM_OK_TO_BUILD
 
         self.assertTrue(success)
