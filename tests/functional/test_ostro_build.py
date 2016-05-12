@@ -3,7 +3,6 @@ import unittest
 import re
 import subprocess
 import os.path
-import utils.ceedutil as ceedutil
 import glob
 
 # This test set ASSUMES the initial scripts have been run and therefore we have
@@ -16,7 +15,11 @@ def countRunTasks(d,v=False):
         if v:
             for f in fileList:
                 print ("Found too many files: %s\n"%f)
-            return 100000
+        return 100000
+    if len(fileList) == 0:
+        if v:
+            print ("No log file found!\n")
+        return 100000
     # generate the list by whittling it down
     wSet=[ line for line in open(fileList[0]) if 'task' in line]
     wSet=[ line for line in wSet if 'do_compile'  in line]
@@ -27,6 +30,20 @@ def countRunTasks(d,v=False):
 
     return(len(wSet))
 
+import threading
+import time
+class SpitMsg(threading.Thread):
+    def __init__(self,msg,timeout):
+        threading.Thread.__init__(self)
+        self.msg=msg
+        self.timeout=timeout
+        self.keepGoing=True
+    def run(self):
+        while self.keepGoing:
+            print(self.msg);
+            time.sleep(self.timeout)
+    def keepGoing(self,flag):
+        self.keepGoing=flag
 
 
 class OstroBuildTest(unittest.TestCase):
@@ -39,10 +56,13 @@ class OstroBuildTest(unittest.TestCase):
         self.makeScript='./scripts/bitbake.ostro'
         self.noswupdImage="ostro-shared/images/intel-corei7-64/ostro-image-noswupd-intel-corei7-64.dsk"
         self.devnull=open(os.devnull, 'w')
+        self.mySpitter=SpitMsg("Keeping Travis Timeouts Happy\n",3*60)
+        self.mySpitter.start()
 
     def tearDown(self):
         ''' Destroy unique data '''
-        pass
+        self.mySpitter.keepGoing(False)
+
 
     def test_noswupd_build(self):
         ''' Build ostro-image-noswupd\n'''
