@@ -42,7 +42,7 @@ class SpitMsg(threading.Thread):
         while self.keepGoing:
             print(self.msg);
             time.sleep(self.timeout)
-    def keepGoing(self,flag):
+    def setKeepGoing(self,flag):
         self.keepGoing=flag
 
 
@@ -56,12 +56,12 @@ class OstroBuildTest(unittest.TestCase):
         self.makeScript='./scripts/bitbake.ostro'
         self.noswupdImage="ostro-shared/images/intel-corei7-64/ostro-image-noswupd-intel-corei7-64.dsk"
         self.devnull=open(os.devnull, 'w')
-        self.mySpitter=SpitMsg("Keeping Travis Timeouts Happy\n",3*60)
+        self.mySpitter=SpitMsg("Keeping Travis Timeouts Happy\n",1*60)
         self.mySpitter.start()
 
     def tearDown(self):
         ''' Destroy unique data '''
-        self.mySpitter.keepGoing(False)
+        self.mySpitter.setKeepGoing(False)
 
 
     def test_noswupd_build(self):
