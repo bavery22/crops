@@ -77,12 +77,14 @@ class OstroBuildTest(unittest.TestCase):
 
         if os.path.isfile(self.noswupdImage):
             success=True
-
+        else:
+            print("No Image File Found\n")
         # and check to see if we have an ok (0 is gr8)
         # number of sstate misses
         PATH="ostro-shared/log/cooker/intel-corei7-64"
         NUM_OK_TO_BUILD=10
         # 2nd argument prints out bad sstate pkgs
-        success |= countRunTasks(PATH,True)<=NUM_OK_TO_BUILD
+        n = countRunTasks(PATH,True)
+        success |= <=NUM_OK_TO_BUILD
 
         self.assertTrue(success)
