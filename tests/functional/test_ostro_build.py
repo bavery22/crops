@@ -7,8 +7,8 @@ import utils.ceedutil as ceedutil
 import glob
 
 # This test set ASSUMES the initial scripts have been run and therefore we have
-1) ostro container crops/ostrobuilder:v1.0.0
-2) Currently assuming we are running on linix/Travis. We need docker-machine checks added to run on pc/mac as well.
+# 1) ostro container crops/ostrobuilder:v1.0.0
+# 2) Currently assuming we are running on linix/Travis. We need docker-machine checks added to run on pc/mac as well.
 
 def countRunTasks(d,v=False):
     fileList=glob.glob(d+'/*.log')
