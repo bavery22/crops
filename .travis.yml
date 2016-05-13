@@ -41,8 +41,8 @@ script:
   - echo 'SSTATE_DIR = "/ostro/ostro-shared/sstate"' >> ostro-shared/conf/ostro.conf
 # we run in parts to avoid timeout
   - ./tests/helpers/Spitter.py -c "./scripts/bitbake.ostro glibc"
-  - ./tests/helpers/Spitter.py -c "./scripts/bitbake.ostro linux-yocto
-  - ./tests/helpers/Spitter.py -c "./scripts/bitbake.ostro ostro-image-noswupd""
+  - ./tests/helpers/Spitter.py -c "./scripts/bitbake.ostro linux-yocto"
+  - ./tests/helpers/Spitter.py -c "./scripts/bitbake.ostro ostro-image-noswupd"
 # tests split up
   - python tests.py -f ostro
 
