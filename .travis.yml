@@ -36,7 +36,15 @@ script:
 #  - docker images | grep zephyr | grep -q test
 #  - ./scripts/run_containers
   - ./scripts/build_containers.ostro
-  - python tests.py
+# this is to populate shared dir and make sstate go outside for image speedup
+  - ./scripts/bitbake.ostro zlib-native
+  - echo 'SSTATE_DIR = "/ostro/ostro-shared/sstate"' >> ostro-shared/conf/ostro.conf
+# we run in parts to avoid timeout
+  - ./scripts/bitbake.ostro glibc
+  - ./scripts/bitbake.ostro linux-yocto
+  - ./scripts/bitbake.ostro ostro-image-noswupd
+# tests split up
+  - python tests.py -f ostro
 
 notifications:
   email:

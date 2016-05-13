@@ -10,24 +10,22 @@ import glob
 # 2) Currently assuming we are running on linix/Travis. We need docker-machine checks added to run on pc/mac as well.
 
 def countRunTasks(d,v=False):
+    ''' counts number of non sstate tasks in collection of cooker logs'''
     fileList=glob.glob(d+'/*.log')
-    if len(fileList) > 1:
-        if v:
-            for f in fileList:
-                print ("Found too many files: %s\n"%f)
-        return 100000
+    n=0
     if len(fileList) == 0:
         if v:
             print ("No log file found!\n")
         return 100000
     # generate the list by whittling it down
-    wSet=[ line for line in open(fileList[0]) if 'task' in line]
-    wSet=[ line for line in wSet if 'do_compile'  in line]
-    wSet=[ line for line in wSet if 'Running'  in line]
-    if (v):
-        for l in wSet:
-            print("Run Entry->%s"%l.strip())
-
+    for f in fileList:
+        wSet=[ line for line in open(f) if 'task' in line]
+        wSet=[ line for line in wSet if 'do_compile'  in line]
+        wSet=[ line for line in wSet if 'Running'  in line]
+        if (v):
+            for l in wSet:
+                print("Run Entry->%s"%l.strip())
+        n += len(wSet)
     return(len(wSet))
 
 import threading
@@ -53,7 +51,6 @@ class OstroBuildTest(unittest.TestCase):
         ''' Define some unique data for validation '''
         # TODO:need to use a check for docker machine and get ip if pc/mac
         #self.dockerAddress = ceedutil.getDockerAddress().strip()
-        self.makeScript='./scripts/bitbake.ostro'
         self.noswupdImage="ostro-shared/images/intel-corei7-64/ostro-image-noswupd-intel-corei7-64.dsk"
         self.devnull=open(os.devnull, 'w')
         self.mySpitter=SpitMsg("Keeping Travis Timeouts Happy\n",1*60)
@@ -65,13 +62,10 @@ class OstroBuildTest(unittest.TestCase):
 
 
     def test_noswupd_build(self):
-        ''' Build ostro-image-noswupd\n'''
-        TARGET="ostro-image-noswupd"
-        try:
-            subprocess.call([self.makeScript,TARGET])
-        except subprocess.CalledProcessError as e:
-            print e.output
-            self.assertTrue(False)
+        ''' Check an ostro build of an ostro-image-noswupd'''
+        ''' Assumes the build is completed elsewhere.  It '''
+        ''' was broken up due to travis timeout issues when'''
+        ''' we did a full build'''
 
         success=False
 
