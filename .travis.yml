@@ -26,8 +26,7 @@ before_install:
   # upgrade docker-engine to specific version
   - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
 
-
-script:
+before_script:
 #  - ./scripts/build_ceed
   - docker version
 #  - ./scripts/build_containers
@@ -37,6 +36,8 @@ script:
 #  - ./scripts/run_containers
   - ./scripts/build_containers.ostro
 # this is to populate shared dir and make sstate go outside for image speedup
+
+script:
   - ./scripts/bitbake.ostro zlib-native
   - echo 'SSTATE_DIR = "/ostro/ostro-shared/sstate"' >> ostro-shared/conf/ostro.conf
 # we run in parts to avoid timeout
