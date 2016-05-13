@@ -22,6 +22,10 @@ class SpitMsg(threading.Thread):
         while self.keepGoing:
             print(self.msg);
             time.sleep(self.timeout)
+    def setTimeout(self,t):
+        self.timeout=t
+    def setMsg(self,m):
+        self.msg=m
     def setKeepGoing(self,flag):
         self.keepGoing=flag
     def go(self):
@@ -38,7 +42,16 @@ if __name__ == '__main__':
 
     parser.add_argument("--command", "-c", help="command to run"
                         "while chatty runs in background")
+    parser.add_argument("--timeout", "-t", help="how often to"
+                        "spit out msg")
+    parser.add_argument("--message", "-m", help="Witty msg to spit")
+
+
     args = parser.parse_args()
     if args.command:
         mySpitter=SpitMsg(args.command)
+        if args.message:
+            mySpitter.setMsg(args.message)
+        if args.timeout:
+            mySpitter.setTimeout(float(args.timeout))
         mySpitter.go()
