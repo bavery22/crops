@@ -32,10 +32,10 @@ script:
   - docker version
   - ./scripts/build_containers
   - ./scripts/build_containers.ostro
-  - docker images | grep codi | grep -q test
-  - docker images | grep toolchain | grep -q test
-  - docker images | grep zephyr | grep -q test
-  - docker images | grep ostrobuilder | grep -q v1.0.0
+  - docker images | grep codi | grep  test
+  - docker images | grep toolchain | grep  test
+  - docker images | grep zephyr | grep  test
+  - docker images | grep ostrobuilder | grep  v1.0.0
   - ./scripts/run_containers
   - python tests.py
 
