@@ -55,44 +55,6 @@ Please refer to the [GitHub Wiki](https://github.com/crops/crops/wiki)
   docker build -t crops/toolchain:my_toolchain -f Dockerfile.toolchain ../
   ```
 
- 7. **Start CODI container**
-
-  ```
-  docker run -d --name codi-test -v /var/run/docker.sock:/var/run/docker.sock --net=host crops/codi:version
-  ```
-
- 8. **Start toolchain container**
-
-  ```
-  mkdir -p $HOME/crops-workspace && docker run -d --name crops-toolchain-my_toolchain -v $HOME/crops-workspace/:/crops/   --env TURFFID=crops-toolchain-my_toolchain --net=host crops/toolchain:my_toolchain
-  ```
-
- 9. **Run the Zephyr installer and answer "Yes" when prompted to install CEED. Answer "No" to all other questions**
-
-  ```
-  curl -kOs https://raw.githubusercontent.com/crops/crops/master/installers/zephyr-installer.sh && source   ./zephyr-installer.sh
-  ```
-
- 10. **Place your project in the shared workspace**
-
-  Example:
-  ```
-  $HOME/crops-workspace/my_project/
-  ```
-
- 11. **Build your project**
-
-  Example:
-  ```
-  $HOME/.crops/ceed/ceed -d crops-toolchain-my_toolchain -g "make -C /crops/my_project/"
-  ```
- 12. **Share your toolchain with other developers by pushing it to Docker Hub**
-
-  Example:
-  ```
-  $docker push crops/toolchain:my_toolchain"
-  ```
-
 ## CONTRIBUTING TO CROPS
 
 #### COMPILE CEED, TURFF AND CODI ON LINUX
