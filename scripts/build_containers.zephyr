@@ -34,8 +34,8 @@ cd ${TOPDIR}/dockerfiles;
 Q=`docker images  -q ${DOCKERHUB_REPO}/zephyr:deps`
 if [ "$Q"  == "" ]; then
     echo "Build Zephyr deps image"
-    docker build -t ${DOCKERHUB_REPO}/zephyr:deps -f Dockerfile.zephyr.deps  --rm=true ..
+    docker build -t ${DOCKERHUB_REPO}/zephyr:deps -f Dockerfile.zephyr.deps   ..
 fi
 
 echo "Build Zephyr ${ZEPHYR_RELEASE} toolchain image"
-docker build -t ${DOCKERHUB_REPO}/zephyr:${ZEPHYR_RELEASE} --build-arg RELEASE=${ZEPHYR_RELEASE} -f Dockerfile.zephyr --rm=true ..
+docker build -t ${DOCKERHUB_REPO}/zephyr:${ZEPHYR_RELEASE} --build-arg RELEASE=${ZEPHYR_RELEASE} -f Dockerfile.zephyr  ..

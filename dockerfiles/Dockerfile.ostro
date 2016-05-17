@@ -5,7 +5,7 @@
 # docker build -t crops/ostro:builder -f Dockerfile.ostro ..
 #
 
-FROM crops/ostro:deps
+FROM ostro:deps
 MAINTAINER Todor Minchev <todor.minchev@linux.intel.com>
 
 USER root

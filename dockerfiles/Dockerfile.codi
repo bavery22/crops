@@ -11,7 +11,7 @@
 #
 # docker build -t crops/codi:0.1 -f Dockerfile.codi ../
 
-FROM crops/codi:deps
+FROM codi:deps
 MAINTAINER Todor Minchev <todor.minchev@linux.intel.com>
 
 # Build and install CODI

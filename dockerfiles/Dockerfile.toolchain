@@ -12,7 +12,7 @@
 # or scripts/build_containers.sdk will build all of them
 #
 
-FROM crops/toolchain:deps
+FROM toolchain:deps
 MAINTAINER Todor Minchev <todor.minchev@linux.intel.com>
 
 ARG TARGET

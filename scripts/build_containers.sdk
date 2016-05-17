@@ -50,23 +50,23 @@ done
 cd ${TOPDIR}/dockerfiles;
 
 # build codi
-Q=`docker images  -q ${DOCKERHUB_REPO}/codi:deps`
+Q=`docker images  -q codi:deps`
 if [ "$Q"  == "" ]; then
     echo "Build CODI deps image"
-    docker build -t ${DOCKERHUB_REPO}/codi:deps -f Dockerfile.codi.deps --rm=true ..
+    docker build -t codi:deps -f Dockerfile.codi.deps  ..
 fi
 
 
 echo "Build CODI  image"
-docker build -t ${DOCKERHUB_REPO}/codi:${CROPS_RELEASE} -f Dockerfile.codi --rm=true ..
+docker build -t ${DOCKERHUB_REPO}/codi:${CROPS_RELEASE} -f Dockerfile.codi  ..
 
 echo "Build CODI debug  image"
-docker build -t ${DOCKERHUB_REPO}/codi:${CROPS_RELEASE}debug --build-arg build_type=debug -f Dockerfile.codi --rm=true ..
+docker build -t ${DOCKERHUB_REPO}/codi:${CROPS_RELEASE}debug --build-arg build_type=debug -f Dockerfile.codi  ..
 
-Q=`docker images  -q ${DOCKERHUB_REPO}/toolchain:deps`
+Q=`docker images  -q toolchain:deps`
 if [ "$Q"  == "" ]; then
     echo "Build toolchain deps image"
-    docker build -t ${DOCKERHUB_REPO}/toolchain:deps -f Dockerfile.toolchain.deps  --rm=true ..
+    docker build -t toolchain:deps -f Dockerfile.toolchain.deps   ..
 fi
 
 for target in $TARGETS; do

@@ -4,7 +4,7 @@
 #
 # docker build -t crops/ceed:0.1 -f Dockerfile.ceed.win ../
 
-FROM crops/ceed:deps
+FROM ceed:deps
 MAINTAINER Todor Minchev <todor.minchev@linux.intel.com>
 LABEL name="ceed-windows"
 
@@ -16,4 +16,3 @@ COPY globals.[ch] /usr/local/crops/
 
 RUN cd /usr/local/crops/ceed && \
   CC=x86_64-w64-mingw32-gcc make
-
