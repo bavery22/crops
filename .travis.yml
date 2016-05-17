@@ -10,7 +10,6 @@ services:
 env:
     global:
         - DOCKER_VERSION=1.10.1-0~trusty
-#      - TARGETS="aarch64 armv5e armv7a-neon mips64 core2-64 i586"
 	- TARGETS="armv5e i586"
 	- YP_RELEASE=2.1
 	- ZEPHYR_RELEASE=0.7.5
