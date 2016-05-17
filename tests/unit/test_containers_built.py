@@ -22,6 +22,16 @@ def checkPresent(myDict,myStream):
         present &= v['found']
     return present
 
+    def printDockerImagesSad(hdr,myDict):
+        p=subprocess.Popen(cmd.split(), stderr=sys.stderr, stdout=subprocess.PIPE,
+                        shell=False)
+        print("--%s-- Images ->",hdr)
+        for l on p.stdout:
+            print ("%s",l)
+        print ("Looking for:")
+        for k,v in myDict.iteritems():
+            print("%s found = %s"%(v['name'],v['found']))
+
 class TestContainersBuilt(unittest.TestCase):
     def setUp(self):
         self.sdkTargets = os.environ['TARGETS'].split()
@@ -55,6 +65,10 @@ class TestContainersBuilt(unittest.TestCase):
                         shell=False)
 
         allBuilt=checkPresent(self.sdkD,p.stdout)
+        if ! allBuilt:
+            # error information is more useful than true is not false
+            printDockerImagesSad("test_sdk_containers_built",self.sdkD)
+
         self.assertTrue(allBuilt)
 
 
@@ -64,6 +78,10 @@ class TestContainersBuilt(unittest.TestCase):
                         shell=False)
 
         allBuilt=checkPresent(self.zephyrD,p.stdout)
+        if ! allBuilt:
+            # error information is more useful than true is not false
+            printDockerImagesSad("test_zephyr_containers_built",self.zephyrD)
+
         self.assertTrue(allBuilt)
 
 
@@ -73,6 +91,10 @@ class TestContainersBuilt(unittest.TestCase):
                         shell=False)
 
         allBuilt=checkPresent(self.ostroD,p.stdout)
+        if ! allBuilt:
+            # error information is more useful than true is not false
+            printDockerImagesSad("test_ostro_containers_built",self.ostroD)
+
         self.assertTrue(allBuilt)
 
 

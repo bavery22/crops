@@ -39,7 +39,6 @@ script:
   - ./scripts/build_containers.sdk
   - ./scripts/build_containers.zephyr
   - ./scripts/build_containers.ostro
-  - ./scripts/run_containers
   - python tests.py
 
 after_success:
