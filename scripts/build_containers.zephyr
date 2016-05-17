@@ -31,10 +31,10 @@ fi
 
 cd ${TOPDIR}/dockerfiles;
 
-Q=`docker images  -q ${DOCKERHUB_REPO}/zephyr:deps`
+Q=`docker images  -q zephyr:deps`
 if [ "$Q"  == "" ]; then
     echo "Build Zephyr deps image"
-    docker build -t ${DOCKERHUB_REPO}/zephyr:deps -f Dockerfile.zephyr.deps   ..
+    docker build -t zephyr:deps -f Dockerfile.zephyr.deps   ..
 fi
 
 echo "Build Zephyr ${ZEPHYR_RELEASE} toolchain image"

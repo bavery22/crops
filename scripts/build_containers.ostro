@@ -30,10 +30,10 @@ fi
 
 cd ${TOPDIR}/dockerfiles;
 
-Q=`docker images  -q ${DOCKERHUB_REPO}/ostro:deps`
+Q=`docker images  -q ostro:deps`
 if [ "$Q"  == "" ]; then
     echo "Build ostro deps image"
-    docker build -t ${DOCKERHUB_REPO}/ostro:deps -f Dockerfile.ostro.deps  ..
+    docker build -t ostro:deps -f Dockerfile.ostro.deps  ..
 fi
 Q=`docker images  -q ${DOCKERHUB_REPO}/ostrobuilder:${OSTRO_RELEASE}`
 if [ "$Q"  == "" ]; then
