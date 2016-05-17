@@ -36,8 +36,11 @@ before_install:
 script:
   - ./scripts/build_ceed
   - docker version
+  - echo "Building SDK Containers"
   - ./scripts/build_containers.sdk
+  - echo "Building Zephyr Containers"
   - ./scripts/build_containers.zephyr
+  - echo "Building Ostro Containers"
   - ./scripts/build_containers.ostro
   - python tests.py
 
