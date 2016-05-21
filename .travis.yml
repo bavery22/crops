@@ -45,8 +45,8 @@ script:
   - python tests.py
 
 after_success:
-  - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-  - docker images | grep ${DOCKERHUB_REPO}\/ | grep -v deps | awk '{print $1 ":" $2}' | xargs docker push
+  - ./scripts/pushToDockerhub.sh
+
 
 notifications:
   email:
