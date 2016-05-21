@@ -43,9 +43,9 @@ script:
   - echo "Building Ostro Containers"
   - ./scripts/build_containers.ostro
   - python tests.py
-
-after_success:
   - ./scripts/pushToDockerhub.sh
+
+
 
 
 notifications:
