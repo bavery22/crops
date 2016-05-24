@@ -5,7 +5,7 @@
 # docker build -t crops/ostro:builder -f Dockerfile.ostro ..
 #
 
-FROM crops/ostro:deps
+FROM toolchain:deps
 MAINTAINER Todor Minchev <todor.minchev@linux.intel.com>
 
 USER root
@@ -18,11 +18,11 @@ COPY helpers/startOstroScript.sh /ostro/bin/startOstroScript.sh
 COPY confs/ostro/* /ostro/sample-conf/
 
 
-ARG   TAG
+ARG   RELEASE
 RUN   chmod +rx /ostro/bin/runbitbake.py && \
       chmod +rx /ostro/bin/startOstroScript.sh && \
       git clone https://github.com/ostroproject/ostro-os.git /ostro/ostro-os && \
       cd /ostro/ostro-os && \
-      git checkout $TAG
+      git checkout $RELEASE
 
 ENTRYPOINT ["/ostro/bin/startOstroScript.sh"]

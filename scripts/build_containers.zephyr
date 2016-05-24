@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -e
+set -o pipefail
+
+# This is a sanity test script for the CODI and toolchain Docker images.
+# This removes the old test containers, and builds a new codi and new toolchains.
+# If you do not have the deps containers, it will build them but this takes awhile
+#
+# Example:
+#
+# ./tests/build_containers.zephyr
+
+TOPDIR=`git rev-parse --show-toplevel`
+if [ "$ZEPHYR_RELEASE" = "" ]; then
+    ZEPHYR_RELEASE="0.7.5"
+fi
+# travis will set this to latest and push to dockerhub
+if [ "$CROPS_RELEASE" = "" ]; then
+    CROPS_RELEASE="local"
+fi
+if [ "$DOCKERHUB_REPO" = "" ]; then
+    DOCKERHUB_REPO="crops"
+fi
+
+# remove Zephyr toolchain image as we will rebuild it
+Q=`docker images  -q ${DOCKERHUB_REPO}/zephyr:${ZEPHYR_RELEASE}`
+if [ "$Q"  != "" ]; then
+    echo "Removing Zephyr toolchain image"
+    docker rmi -f   $Q
+fi
+
+cd ${TOPDIR}/dockerfiles;
+
+Q=`docker images  -q toolchain:deps`
+if [ "$Q"  == "" ]; then
+    echo "Build toolchain deps image"
+    docker build -t toolchain:deps -f Dockerfile.toolchain.deps   ..
+fi
+
+echo "Build Zephyr ${ZEPHYR_RELEASE} toolchain image"
+docker build -t ${DOCKERHUB_REPO}/zephyr:${ZEPHYR_RELEASE} --build-arg RELEASE=${ZEPHYR_RELEASE} -f Dockerfile.zephyr  ..
