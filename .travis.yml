@@ -36,9 +36,9 @@ before_install:
 script:
   - echo "Building Deps"
   - docker version
-  - ./scripts/build_deps
+  - ./scripts/build_containers.deps
   - python tests.py
-
+  - ./scripts/pushToDockerhub.sh
 
 after_success:
   - ./scripts/pushToDockerhub.sh
