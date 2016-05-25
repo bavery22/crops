@@ -8,7 +8,7 @@ import tempfile
 import sys
 import stat
 import imp
-
+import inspect
 
 def checkPresent(myDict,myStream):
     for l in myStream:
@@ -40,61 +40,27 @@ class TestContainersBuilt(unittest.TestCase):
         self.zephyrRelease = os.environ['ZEPHYR_RELEASE']
         self.ostroRelease =  os.environ['OSTRO_RELEASE']
         self.sdkCropsRelease = os.environ['CROPS_RELEASE']
-        self.dockerhubRepo = os.environ['DOCKERHUB_REPO']
-        self.sdkD={}
-        for t in self.sdkTargets:
-            self.sdkD[t]={}
-            self.sdkD[t]['name']="%s/toolchain-%s:%s"%(self.dockerhubRepo,t,self.sdkYPRelease)
-            self.sdkD[t]['found']=False
-        self.zephyrD={}
-        self.zephyrD['i686']={}
-        self.zephyrD['i686']['name']="%s/zephyr:%s"%(self.dockerhubRepo,self.zephyrRelease)
-        self.zephyrD['i686']['found']=False
-
-        self.ostroD={}
-        self.ostroD['i686']={}
-        self.ostroD['i686']['name']="%s/ostrobuilder:%s"%(self.dockerhubRepo,self.ostroRelease)
-        self.ostroD['i686']['found']=False
+        self.travisSlug = os.environ['TRAVIS_REPO_SLUG']
+        self.dockerhubRepo = os.environ['TRAVIS_REPO_SLUG']
+        print("travisSlug=%s"%(self.travisSlug))
+        self.depsD={}
+        self.depsD['i686']={}
+        self.depsD['i686']['name']="%s/toolchain:%s"%(self.dockerhubRepo,"deps")
+        self.depsD['i686']['found']=False
 
     def tearDown(self):
         pass
 
 
-    def test_sdk_containers_built(self):
+    def test_deps_containers_built(self):
         cmd = """docker  images """
         p=subprocess.Popen(cmd.split(), stderr=sys.stderr, stdout=subprocess.PIPE,
                         shell=False)
-
-        allBuilt=checkPresent(self.sdkD,p.stdout)
+        check=self.depsD
+        allBuilt=checkPresent(check,p.stdout)
         if not allBuilt:
             # error information is more useful than true is not false
-            printDockerImagesSad("test_sdk_containers_built",self.sdkD)
-
-        self.assertTrue(allBuilt)
-
-
-    def test_zephyr_containers_built(self):
-        cmd = """docker  images """
-        p=subprocess.Popen(cmd.split(), stderr=sys.stderr, stdout=subprocess.PIPE,
-                        shell=False)
-
-        allBuilt=checkPresent(self.zephyrD,p.stdout)
-        if not allBuilt:
-            # error information is more useful than true is not false
-            printDockerImagesSad("test_zephyr_containers_built",self.zephyrD)
-
-        self.assertTrue(allBuilt)
-
-
-    def test_ostro_containers_built(self):
-        cmd = """docker  images """
-        p=subprocess.Popen(cmd.split(), stderr=sys.stderr, stdout=subprocess.PIPE,
-                        shell=False)
-
-        allBuilt=checkPresent(self.ostroD,p.stdout)
-        if not allBuilt:
-            # error information is more useful than true is not false
-            printDockerImagesSad("test_ostro_containers_built",self.ostroD)
+            printDockerImagesSad(inspect.stack()[0][3],check)
 
         self.assertTrue(allBuilt)
 
